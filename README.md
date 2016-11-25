@@ -32,7 +32,7 @@ $data = (new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:r
 ```
 For convience it's also possible to only map to 1 array instead of a list of results.
 
-```
+```php
 $data = (new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:record', $namespaces))
     ->from('somefile.xml')
     ->transformOne();
