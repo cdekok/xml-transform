@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <responseDate>2016-11-25T15:29:40Z</responseDate>
+    <request verb="ListRecords" metadataPrefix="oai_rdf">https://api.rkd.nl/api/oai-pmh/image</request>
+    <ListRecords xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:rkd="http://rkd.nl/">
+        <record xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:rkd="http://rkd.nl/">
+            <header>
+                <identifier>264618</identifier>
+                <datestamp>2015-09-16T19:46:55Z</datestamp>
+                <setSpec>oai:rkd:images</setSpec>
+            </header>
+            <metadata xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:schema="http://schema.org/" xmlns:rkd="http://rkd.nl/">
+                <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcam="http://purl.org/dc/dcam/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:schema="http://schema.org/" xmlns:rkd="http://rkd.nl/">
+                    <rdf:Description xmlns="" rdf:about="https://rkd.nl/explore/images/264618">
+                        <rdf:type rdf:resource="https://schema.org/VisualArtwork"/>
+                        <dcterms:title xml:lang="nl" rdf:datatype="webdisplay">Geruit vlak in een kader (opzetkarton voor postzegels of plaatjes?)</dcterms:title>
+                        <dcterms:title xml:lang="en" rdf:datatype="webdisplay">Squared area in a frame (mount for stamps or images?)</dcterms:title>
+                        <dcterms:creator xml:lang="nl" rdf:datatype="webdisplay">Johannes Moesman (1859-1937)</dcterms:creator>
+                        <dcterms:creator xml:lang="en" rdf:datatype="webdisplay">Johannes Moesman (1859-1937)</dcterms:creator>
+                        <dcterms:coverage rdf:datatype="webdisplay">The Hague, RKD (standplaats BD/Originelen/NEG)</dcterms:coverage>
+                        <dcterms:created xml:lang="en">c. 1900?</dcterms:created>
+                        <dcterms:created xml:lang="nl">ca. 1900?</dcterms:created>
+                        <dcterms:relation>
+                            <foaf:Image rdf:about="https://rkd.nl/image/medium/039f5c00-dff0-47f1-51e2-c2cdc513b436">
+                                <dcterms:title>1206316</dcterms:title>
+                            </foaf:Image>
+                        </dcterms:relation>
+                        <dcterms:creator>
+                            <foaf:Person>
+                                <rdfs:label xml:lang="en">Current attribution</rdfs:label>
+                                <rdfs:label xml:lang="nl">Huidige toeschrijving</rdfs:label>
+                                <rdf:value>Johannes Moesman (1859-1937)</rdf:value>
+                                <rdfs:seeALso>
+                                    <rdf:Description rdf:about="http://opendata.rkd.nl/opensearch/artists/eac-cpf?q=kunstenaarsnummer:89153"/>
+                                </rdfs:seeALso>
+                            </foaf:Person>
+                        </dcterms:creator>
+                        <dcterms:subject>
+                            <rdf:Description xml:lang="en" rdf:about="http://rkd.nl/explore/thesaurus?term=63079">
+                                <rdf:value xml:lang="en">ornament</rdf:value>
+                                <rdf:value xml:lang="nl">ornament</rdf:value>
+                                <rdf:value rdf:datatype="int">63079</rdf:value>
+                            </rdf:Description>
+                        </dcterms:subject>
+                        <dcterms:subject>
+                            <rdf:Description xml:lang="en" rdf:about="http://rkd.nl/explore/thesaurus?term=63070">
+                                <rdf:value xml:lang="en">cartouche</rdf:value>
+                                <rdf:value xml:lang="nl">cartouche</rdf:value>
+                                <rdf:value rdf:datatype="int">63070</rdf:value>
+                            </rdf:Description>
+                        </dcterms:subject>
+                    </rdf:Description>
+                    <schema:VisualArtwork>
+                        <schema:artform xml:lang="nl">prent</schema:artform>
+                        <schema:artform xml:lang="en">print</schema:artform>
+                        <schema:artMedium xml:lang="nl">lithografie (techniek)</schema:artMedium>
+                        <schema:artMedium xml:lang="en">lithography (technique)</schema:artMedium>
+                        <schema:artworkSurface xml:lang="nl">papier</schema:artworkSurface>
+                        <schema:artworkSurface xml:lang="nl">paper</schema:artworkSurface>
+                        <schema:width>
+                            <schema:QuantitativeValue>
+                                <schema:value>267</schema:value>
+                                <schema:unit>mm</schema:unit>
+                            </schema:QuantitativeValue>
+                        </schema:width>
+                        <schema:height>
+                            <schema:QuantitativeValue>
+                                <schema:value>332</schema:value>
+                                <schema:unit>mm</schema:unit>
+                            </schema:QuantitativeValue>
+                        </schema:height>
+                        <rkd:physicalConnection xml:lang="nl">onderdeel van een album (losbladig)</rkd:physicalConnection>
+                        <rkd:physicalConnection xml:lang="en">part of an album (unbound)</rkd:physicalConnection>
+                    </schema:VisualArtwork>
+                </rdf:RDF>
+            </metadata>
+        </record>
+    </ListRecords>
+</OAI-PMH>

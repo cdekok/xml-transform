@@ -1,0 +1,19 @@
+parameters:
+  bin_dir: "./vendor/bin"
+  git_dir: "."
+  tasks:
+      phpcs:
+        standard: PSR2
+        show_warnings: false
+        ignore_patterns:
+          - "test/*.php"
+        metadata:
+          priority: 300
+      phpunit:
+        metadata:
+          priority: 100
+      composer:
+        no_check_lock: true
+      yamllint:
+        ignore_patterns:
+          - "#test/(.*).yml#"

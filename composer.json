@@ -1,0 +1,35 @@
+{
+    "name": "cept/xml-transform",
+    "description": "XML to Array transformer",
+	"keywords": ["xml","mapping","transformer"],
+    "authors": [
+        {
+            "name": "cdekok",
+            "email": "chris.de.kok@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0"
+    },
+    "autoload": {
+        "exclude-from-classmap": ["/test/"],
+        "psr-4": {
+            "XmlTransform\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "XmlTransform\\Test": "tests/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.6",
+        "phpro/grumphp": "^0.9.6",
+        "squizlabs/php_codesniffer": "^2.7"
+    },
+    "scripts": {
+        "format": "phpcbf src/ --standard=PSR2 --no-patch",
+        "report": "phpunit --log-junit 'reports\/phpunit\/unitreport.xml' --coverage-html 'reports\/phpunit\/coverage' --coverage-clover 'reports\/phpunit\/coverage.xml' || : && phpcs --standard=PSR2 -n --report=checkstyle --report-file=reports\/checkstyle.xml src\/ || :",
+        "test": "grumphp git:pre-commit"
+    }
+}
