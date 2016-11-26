@@ -220,6 +220,45 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
             $result
         );
     }   
+
+    public function testFromXml()
+    {
+        $xml = file_get_contents(__DIR__ . '/files/no_namespace.xml');
+        $mapping = [
+            'title' => ['xpath' => './/title/text()'],
+            'location'  => [
+                'city' => ['xpath' => './/location/@city']
+            ],
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//record');
+        $result = $transformer->fromXml($xml)->transform();
+
+        $this->assertEquals([
+                [
+                    'title' => 'Test',
+                    'location' => ['city' => 'Bangkok']
+                ]
+            ], 
+            $result
+        );
+    }
+    
+    public function testGetFilter()
+    {
+        $xml = __DIR__ . '/files/record_default_namespace.xml';
+        $namespaces = [];
+        $mapping = ['id' => ['xpath' => './/oai:identifier/text()']];
+        $transformer = new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH', $namespaces);
+        
+        $this->assertEquals(false, $transformer->getFilter());
+        $transformer->from($xml)->filter();
+        $this->assertEquals(true, $transformer->getFilter());
+        $transformer->from($xml)->filter(false);
+        $this->assertEquals(false, $transformer->getFilter());
+        $transformer->from($xml)->filter(true);
+        $this->assertEquals(true, $transformer->getFilter());        
+    }
     
     public function testFilter()
     {
