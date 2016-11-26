@@ -42,6 +42,12 @@ $data = (new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:r
 
 ```
 
+Filter empty values from the returned array
+
+```
+$transformer->from($xml)->filter()->transform();
+```
+
 ## Development ##
 
 After running `composer install` grumphp will watch codestyles and unit tests before commits.

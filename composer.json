@@ -1,5 +1,5 @@
 {
-    "name": "cept/xml-transform",
+    "name": "cdekok/xml-transform",
     "description": "XML to Array transformer",
 	"keywords": ["xml","mapping","transformer"],
     "authors": [
@@ -9,7 +9,8 @@
         }
     ],
     "require": {
-        "php": "^7.0"
+        "php": "^7.0",
+		"lib-libxml": "*"
     },
     "autoload": {
         "exclude-from-classmap": ["/test/"],

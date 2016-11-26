@@ -105,6 +105,29 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
+    public function testFromDomDOcument()
+    {
+        $xml = __DIR__ . '/files/record_default_namespace_repeatable.xml';
+        $namespaces = ['oai' => 'http://www.openarchives.org/OAI/2.0/'];
+        $mapping = [
+            'id' => [
+                'xpath' => './/oai:identifier/text()',
+                'repeatable' => true
+            ]
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:record', $namespaces);
+        $dom = new \DOMDocument;
+        $dom->load($xml);
+        $result = $transformer->fromDomDocument($dom)->transform();
+        $this->assertEquals([
+                ['id' => ['2', '3']],
+                ['id' => ['1109', '1110']],
+            ],
+            $result
+        );
+    }    
+    
     public function testNested()
     {
         $xml = __DIR__ . '/files/record_default_namespace.xml';
@@ -173,6 +196,70 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
         $transformer = new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:record', $namespaces);
         $result = $transformer->from($xml)->transformOne();
         $this->assertEquals(['title' => 'Geruit vlak in een kader (opzetkarton voor postzegels of plaatjes?)'], $result);
+    }
+    
+    public function testNoNamespace()
+    {
+        $xml = __DIR__ . '/files/no_namespace.xml';
+        $mapping = [
+            'title' => ['xpath' => './/title/text()'],
+            'location'  => [
+                'city' => ['xpath' => './/location/@city']
+            ],
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//record');
+        $result = $transformer->from($xml)->transform();
+
+        $this->assertEquals([
+                [
+                    'title' => 'Test',
+                    'location' => ['city' => 'Bangkok']
+                ]
+            ], 
+            $result
+        );
+    }   
+    
+    public function testFilter()
+    {
+        $xml = __DIR__ . '/files/record_default_namespace.xml';
+        $namespaces = ['oai' => 'http://www.openarchives.org/OAI/2.0/'];
+        $mapping = [
+            'id' => [
+                'xpath' => './/oai:identifier/text()',
+                'repeatable' => true
+            ],
+            'location' => [
+                'country'   => ['xpath' => './/oai:metadata/oai:location/oai:country/text()'],
+                'city'      => ['xpath' => './/oai:metadata/oai:location/oai:city/text()'],
+            ]
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:record', $namespaces);
+        $result = $transformer->from($xml)->filter()->transform();
+
+        $this->assertEquals([
+                [
+                    'id' => ['2'],
+                    'location' => [
+                        'country' => 'the Netherlands',
+                        'city' => 'Amsterdam',
+                    ]
+                ],
+                [
+                    'id' => ['1109']
+                ],
+            ],
+            $result
+        );
+    }
+    
+    public function testDocument()
+    {
+        $this->expectException(\XmlTransform\Exception\MissingDocument::class);
+        $transformer = new \XmlTransform\Mapper([], '//oai:OAI-PMH/oai:ListRecords/oai:record');
+        $transformer->transform();
     }
     
 }
