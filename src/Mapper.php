@@ -50,7 +50,34 @@ class Mapper
      * @var \DOMDocument
      */
     private $doc;
-
+    
+    /**
+     * Filter empty values
+     *
+     * @var boolean
+     */
+    private $filter = false;
+    
+    /**
+     * <code>
+     * new \XmlTransform\Mapper([
+     *      'id' => [
+     *              'xpath' => './/oai:identifier/text()'
+     *          ],
+     *          'material' => [
+     *              'xpath' => './/oai:material/text()',
+     *              'repeatable' => true
+     *          ],
+     *      ],
+     *      '//oai:OAI-PMH/oai:ListRecords/oai:record',
+     *      ['oai' => 'http://www.openarchives.org/OAI/2.0/'
+     * )
+     * <code>
+     *
+     * @param array $mapping mapping of the array with xpath queries
+     * @param string $contextXpath xpath query of the elements to search in
+     * @param array $namespaces associative array of namespaces
+     */
     public function __construct(array $mapping, string $contextXpath, array $namespaces = [])
     {
         $this->mapping = $mapping;
@@ -76,7 +103,7 @@ class Mapper
      * @param string $xml
      * @return $this
      */
-    public function fromXml(string $xml)
+    public function fromXml(string $xml):self
     {
         $this->doc = new \DOMDocument();
         $this->doc->loadXML($xml);
@@ -84,25 +111,65 @@ class Mapper
     }
 
     /**
-     * Return the transformed data
+     * From dom document, use this if you already have a DomDocument object around
+     *
+     * @param \DOMDocument $doc
+     * @return $this
      */
-    public function transform():array
+    public function fromDomDocument(\DOMDocument $doc):self
     {
-        $context = null;
-        if ($this->contextXpath) {
-            $context = $this->getContext($this->doc, $this->contextXpath, $this->namespaces);
-        }
-
-        $data = [];
-        foreach ($context as $currentContext) {
-            $data[] = $this->map($this->mapping, $currentContext, $this->namespaces);
-        }
-
-        return $data;
+        $this->doc = $doc;
+        return $this;
     }
     
     /**
+     * Filter empty values from transformed array
+     * @param bool $value
+     * @return $this;
+     */
+    public function filter(bool $value = true):self
+    {
+        $this->filter = $value;
+        return $this;
+    }
+    
+    /**
+     * Get filter setting
+     * @return bool
+     */
+    public function getFilter():bool
+    {
+        return $this->filter;
+    }
+    
+    /**
+     * Return the transformed data
+     *
+     * @return array Returns the mapped array
+     */
+    public function transform():array
+    {
+        if (!$this->doc) {
+            throw new Exception\MissingDocument('Set the XML / Dom document first with the from methods');
+        }
+        
+        $context = $this->getContext($this->doc, $this->contextXpath, $this->namespaces);
+        $data = [];
+
+        foreach ($context as $currentContext) {
+            $data[] = $this->map($this->mapping, $currentContext, $this->namespaces);
+        }
+        
+        if ($this->filter) {
+            $data = $this->arrayFilterRecursive($data);
+        }
+        
+        return $data;
+    }
+
+    /**
      * Fetch the first result, use this if you want to map it to a single array
+     *
      * @return array
      */
     public function transformOne():array
@@ -114,7 +181,15 @@ class Mapper
         return [];
     }
 
-    private function map($mapping, \DOMNode $context, array $namespaces = [])
+    /**
+     * Map the array to values from XML
+     *
+     * @param array $mapping
+     * @param \DOMNode $context
+     * @param array $namespaces
+     * @return type
+     */
+    private function map(array $mapping, \DOMNode $context, array $namespaces = [])
     {
         $mapping;
 
@@ -143,16 +218,39 @@ class Mapper
         return $data;
     }
 
-    private function arrayMapRecursive(callable $callback, array $array)
+    /**
+     * Recursively map the values to the array
+     *
+     * @param \XmlTransform\callable $callback
+     * @param array $array
+     * @return array
+     */
+    private function arrayMapRecursive(callable $callback, array $array):array
     {
 
-        $func = function ($item) use (&$func, &$callback) {
+        $func = function ($item) use (&$func, $callback) {
             return !isset($item['xpath']) ? array_map($func, $item) : call_user_func($callback, $item);
         };
 
         return array_map($func, $array);
     }
+    
+    /**
+     *
+     * @param array $input
+     * @return array
+     */
+    private function arrayFilterRecursive(array $input):array
+    {
+        foreach ($input as &$value) {
+            if (is_array($value)) {
+                $value = $this->arrayFilterRecursive($value);
+            }
+        }
 
+        return array_filter($input);
+    }
+    
     /**
      *
      * @param \DOMDocument $doc
@@ -165,12 +263,21 @@ class Mapper
         $return = [];
 
         foreach ($result as $node) {
-            $return[] = $node->data;
+            $return[] = $node->nodeValue;
         }
 
         return $return;
     }
 
+    /**
+     * Get the current context
+     *
+     * @param \DOMDocument $doc
+     * @param string $xpath
+     * @param array $namespaces
+     * @return \DOMNodeList
+     * @throws Exception\ContextNotFound
+     */
     private function getContext(\DOMDocument $doc, string $xpath, array $namespaces = []):\DOMNodeList
     {
         $context = $this->getXpath($doc, $namespaces)->query($xpath);
@@ -181,6 +288,13 @@ class Mapper
         return $context;
     }
 
+    /**
+     * Get xpath query with provided namespaces
+     *
+     * @param \DOMDocument $doc
+     * @param array $namespaces
+     * @return \DOMXPath
+     */
     private function getXpath(\DOMDocument $doc, array $namespaces = []):\DOMXPath
     {
         $xpath = new \DOMXPath($doc);

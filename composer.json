@@ -1,5 +1,5 @@
 {
-    "name": "cept/xml-transform",
+    "name": "cdekok/xml-transform",
     "description": "XML to Array transformer",
 	"keywords": ["xml","mapping","transformer"],
     "authors": [
