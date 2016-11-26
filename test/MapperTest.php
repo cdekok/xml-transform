@@ -301,4 +301,42 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
         $transformer->transform();
     }
     
+    public function testMapper()
+    {
+        $xml = __DIR__ . '/files/record_default_namespace.xml';
+        $namespaces = ['oai' => 'http://www.openarchives.org/OAI/2.0/'];
+        $mapping = [
+            'data' => [
+                'id' => ['xpath' => './/oai:identifier/text()'],
+                'foo' => 'bar'
+            ]
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:record', $namespaces);
+        $result = $transformer->from($xml)->filter()->transformOne();
+
+        $this->assertEquals([
+            'data' => [
+                    'id' => '2',
+                    'foo' => 'bar'
+                ]
+            ],
+            $result
+        );
+    }
+    
+    public function testTransformOneEmpty()
+    {
+        $xml = __DIR__ . '/files/record_default_namespace.xml';
+        $namespaces = ['oai' => 'http://www.openarchives.org/OAI/2.0/'];
+        $mapping = [
+            'id' => ['xpath' => './/oai:foo/text()']
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:record', $namespaces);
+        $result = $transformer->from($xml)->filter()->transformOne();
+
+        $this->assertEquals([],$result);
+    }
+    
 }

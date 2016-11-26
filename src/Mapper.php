@@ -229,7 +229,11 @@ class Mapper
     {
 
         $func = function ($item) use (&$func, $callback) {
-            return !isset($item['xpath']) ? array_map($func, $item) : call_user_func($callback, $item);
+            if (is_array($item) && !isset($item['xpath'])) {
+                return array_map($func, $item);
+            } else {
+                return call_user_func($callback, $item);
+            }
         };
 
         return array_map($func, $array);

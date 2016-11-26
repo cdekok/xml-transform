@@ -6,25 +6,17 @@ php:
   - hhvm
 
 install:
-  - composer install --dev
-  - composer require satooshi/php-coveralls
-
-script:
-  - ./vendor/bin/phpunit --coverage-clover ./report/clover.xml
-
-after_script:
-  - php vendor/bin/coveralls -v
   - composer install --dev --prefer-dist
 
 before_script:
   - mkdir -p build/logs
 
 script:
-  - ./vendor/bin/phpunit --coverage-clover report/clover.xml
+  - ./vendor/bin/phpunit --coverage-clover report/phpunit/coverage.xml
   - ./vendor/bin/phpcs --standard=psr2 ./src
 
 after_script:
-  - ./vendor/bin/coveralls -v --exclude-no-stmt
+  - php vendor/bin/coveralls -v
 
 matrix:
     allow_failures:

@@ -32,7 +32,9 @@
     },
     "scripts": {
         "format": "phpcbf src/ --standard=PSR2 --no-patch",
-        "report": "phpunit --log-junit 'reports\/phpunit\/unitreport.xml' --coverage-html 'reports\/phpunit\/coverage' --coverage-clover 'reports\/phpunit\/coverage.xml' || : && phpcs --standard=PSR2 -n --report=checkstyle --report-file=reports\/checkstyle.xml src\/ || :",
+        "report": "phpunit --log-junit 'report/phpunit/unitreport.xml' --coverage-html='report/phpunit/coverage' --coverage-clover='report/phpunit/coverage.xml' --coverage-text && phpcs --standard=PSR2 -n --report=checkstyle --report-file=report/checkstyle.xml src\/",
+        "coverage-server": "cd report/phpunit/coverage && php -S localhost:5555",
+        "coveralls": "php vendor/bin/coveralls -v",
         "test": "grumphp git:pre-commit"
     }
 }
