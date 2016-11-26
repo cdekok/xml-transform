@@ -5,6 +5,10 @@
 
 This library is useful to map xml values to array values, with xpath queries.
 
+## Installation ##
+
+`composer require cdekok/xml-transform`
+
 ## Usage ##
 
 ```php
