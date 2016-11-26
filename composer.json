@@ -2,6 +2,7 @@
     "name": "cdekok/xml-transform",
     "description": "XML to Array transformer",
 	"keywords": ["xml","mapping","transformer"],
+    "license": "MIT",
     "authors": [
         {
             "name": "cdekok",
