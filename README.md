@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/cdekok/xml-transform.svg?branch=develop)](https://travis-ci.org/cdekok/xml-transform)
+[![Coverage Status](https://coveralls.io/repos/github/cdekok/xml-transform/badge.svg?branch=master)](https://coveralls.io/github/cdekok/xml-transform?branch=master)
+
 # PHP XML Transformer #
 
 This library is useful to map xml values to array values, with xpath queries.
@@ -44,7 +47,7 @@ $data = (new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:r
 
 Filter empty values from the returned array
 
-```
+```php
 $transformer->from($xml)->filter()->transform();
 ```
 
