@@ -1,15 +1,17 @@
 [![Build Status](https://travis-ci.org/cdekok/xml-transform.svg?branch=develop)](https://travis-ci.org/cdekok/xml-transform)
 [![Coverage Status](https://coveralls.io/repos/github/cdekok/xml-transform/badge.svg?branch=master)](https://coveralls.io/github/cdekok/xml-transform?branch=master)
 
-# PHP XML Transformer #
+# PHP XML Transformer
 
 This library is useful to map xml values to array values, with xpath queries.
 
-## Installation ##
+## Installation
 
 `composer require cdekok/xml-transform`
 
-## Usage ##
+## Usage
+
+### List of data
 
 ```php
 
@@ -37,6 +39,9 @@ $data = (new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:r
     ['id' => '13', 'material' => ['pen', 'pencil']],
 ]
 ```
+
+### Single array
+
 For convience it's also possible to only map to 1 array instead of a list of results.
 
 ```php
@@ -48,6 +53,37 @@ $data = (new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:r
 ['id' => '12', 'material' => ['paint', 'pencil']]
 
 ```
+
+### Repeatable nested elements
+
+```php
+$mapping = [
+    'id' => ['xpath' => './/oai:objectid/text()'],
+    'creator' => [
+        'repeatable' => true, // Mark the element as repeatable
+        'context' => './/oai:constituent', // new context for the nested elements
+        'values' => [
+            'name' => ['xpath' => './/text()'],
+            'death_date' => ['xpath' => './/@death_date'],
+        ]
+    ]
+];
+
+$transformer = new \XmlTransform\Mapper($mapping, '//oai:record', $namespaces);
+$result = $transformer->from($xml)->transformOne();
+
+// Result will contain something like this
+[
+    'id' => '3517',
+    'creator' => [
+        ['name' => 'Rembrandt', 'death_date' => '1669'],
+        ['name' => 'Johannes Mock', 'death_date' => '1884'],
+        ['name' => 'Georg Friedrich Schmidt', 'death_date' => '1775'],
+    ]
+]
+```
+
+### Filter values
 
 Filter empty values from the returned array
 
