@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.org/cdekok/xml-transform.svg?branch=develop)](https://travis-ci.org/cdekok/xml-transform)
 [![Coverage Status](https://coveralls.io/repos/github/cdekok/xml-transform/badge.svg?branch=master)](https://coveralls.io/github/cdekok/xml-transform?branch=master)
+[![Total Downloads](https://poser.pugx.org/cdekok/xml-transform/downloads)](https://packagist.org/packages/cdekok/xml-transform)
+[![License](https://poser.pugx.org/cdekok/xml-transform/license)](https://packagist.org/packages/cdekok/xml-transform)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/e362d5d8-1b98-4d6c-a153-6904458f6d77/mini.png)](https://insight.sensiolabs.com/projects/e362d5d8-1b98-4d6c-a153-6904458f6d77)
 
 # PHP XML Transformer
 
