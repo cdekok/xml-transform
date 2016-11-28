@@ -30,6 +30,71 @@ namespace XmlTransform\Test;
 
 class MapperTest extends \PHPUnit\Framework\TestCase {
 
+
+    public function testMultipleNestedRepeatable()
+    {
+        $xml = __DIR__ . '/files/multiple_nested.xml';
+        $namespaces = ['oai' => 'http://www.openarchives.org/OAI/2.0/'];
+
+        // <objectid>3517</objectid>
+        $mapping = [
+            'id' => ['xpath' => './/oai:objectid/text()'],
+            'constituent' => [
+                'repeatable' => true,
+                'context' => './/oai:constituent',
+                'values' => [
+                    'name' => ['xpath' => './/text()'],
+                    'death_date' => ['xpath' => './/@yeardied'],
+                ]
+            ]
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//oai:record', $namespaces);
+        $result = $transformer->from($xml)->transformOne();
+
+        $this->assertEquals([
+                'id' => '3517',
+                'constituent' => [
+                    ['name' => 'Rembrandt', 'death_date' => '1669'],
+                    ['name' => 'Johannes Mock', 'death_date' => '1884'],
+                    ['name' => 'Georg Friedrich Schmidt', 'death_date' => '1775'],
+                ]
+            ],
+            $result
+        );
+    }
+
+    public function testMultipleNested()
+    {
+        $xml = __DIR__ . '/files/multiple_nested.xml';
+        $namespaces = ['oai' => 'http://www.openarchives.org/OAI/2.0/'];
+
+        $mapping = [
+            'id' => ['xpath' => './/oai:objectid/text()'],
+            'constituent' => [
+                'repeatable' => false,
+                'context' => './/oai:constituent',
+                'values' => [
+                    'name' => ['xpath' => './/text()'],
+                    'death_date' => ['xpath' => './/@yeardied'],
+                ]
+            ]
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//oai:record', $namespaces);
+        $result = $transformer->from($xml)->transformOne();
+
+        $this->assertEquals([
+                'id' => '3517',
+                'constituent' => [
+                    'name' => 'Rembrandt',
+                    'death_date' => '1669'
+                ]
+            ],
+            $result
+        );
+    }
+
     public function testNonExistingNode()
     {
         $xml = __DIR__ . '/files/record_default_namespace.xml';
@@ -126,8 +191,8 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
             ],
             $result
         );
-    }    
-    
+    }
+
     public function testNested()
     {
         $xml = __DIR__ . '/files/record_default_namespace.xml';
@@ -165,7 +230,7 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
             $result
         );
     }
-    
+
     public function testMultipleNamespaces()
     {
         $xml = __DIR__ . '/files/multiple_namespaces.xml';
@@ -181,7 +246,7 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
         $result = $transformer->from($xml)->transform();
         $this->assertEquals([['title' => 'Geruit vlak in een kader (opzetkarton voor postzegels of plaatjes?)']], $result);
     }
-    
+
     public function testOne()
     {
         $xml = __DIR__ . '/files/multiple_namespaces.xml';
@@ -197,7 +262,7 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
         $result = $transformer->from($xml)->transformOne();
         $this->assertEquals(['title' => 'Geruit vlak in een kader (opzetkarton voor postzegels of plaatjes?)'], $result);
     }
-    
+
     public function testNoNamespace()
     {
         $xml = __DIR__ . '/files/no_namespace.xml';
@@ -216,10 +281,10 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
                     'title' => 'Test',
                     'location' => ['city' => 'Bangkok']
                 ]
-            ], 
+            ],
             $result
         );
-    }   
+    }
 
     public function testFromXml()
     {
@@ -239,27 +304,27 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
                     'title' => 'Test',
                     'location' => ['city' => 'Bangkok']
                 ]
-            ], 
+            ],
             $result
         );
     }
-    
+
     public function testGetFilter()
     {
         $xml = __DIR__ . '/files/record_default_namespace.xml';
         $namespaces = [];
         $mapping = ['id' => ['xpath' => './/oai:identifier/text()']];
         $transformer = new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH', $namespaces);
-        
+
         $this->assertEquals(false, $transformer->getFilter());
         $transformer->from($xml)->filter();
         $this->assertEquals(true, $transformer->getFilter());
         $transformer->from($xml)->filter(false);
         $this->assertEquals(false, $transformer->getFilter());
         $transformer->from($xml)->filter(true);
-        $this->assertEquals(true, $transformer->getFilter());        
+        $this->assertEquals(true, $transformer->getFilter());
     }
-    
+
     public function testFilter()
     {
         $xml = __DIR__ . '/files/record_default_namespace.xml';
@@ -293,14 +358,14 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
             $result
         );
     }
-    
+
     public function testDocument()
     {
         $this->expectException(\XmlTransform\Exception\MissingDocument::class);
         $transformer = new \XmlTransform\Mapper([], '//oai:OAI-PMH/oai:ListRecords/oai:record');
         $transformer->transform();
     }
-    
+
     public function testMapper()
     {
         $xml = __DIR__ . '/files/record_default_namespace.xml';
@@ -324,7 +389,7 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
             $result
         );
     }
-    
+
     public function testTransformOneEmpty()
     {
         $xml = __DIR__ . '/files/record_default_namespace.xml';
@@ -338,5 +403,5 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEquals([],$result);
     }
-    
+
 }

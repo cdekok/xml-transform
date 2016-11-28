@@ -50,14 +50,14 @@ class Mapper
      * @var \DOMDocument
      */
     private $doc;
-    
+
     /**
      * Filter empty values
      *
      * @var boolean
      */
     private $filter = false;
-    
+
     /**
      * <code>
      * new \XmlTransform\Mapper([
@@ -121,7 +121,7 @@ class Mapper
         $this->doc = $doc;
         return $this;
     }
-    
+
     /**
      * Filter empty values from transformed array
      * @param bool $value
@@ -132,7 +132,7 @@ class Mapper
         $this->filter = $value;
         return $this;
     }
-    
+
     /**
      * Get filter setting
      * @return bool
@@ -141,7 +141,7 @@ class Mapper
     {
         return $this->filter;
     }
-    
+
     /**
      * Return the transformed data
      *
@@ -152,19 +152,8 @@ class Mapper
         if (!$this->doc) {
             throw new Exception\MissingDocument('Set the XML / Dom document first with the from methods');
         }
-        
-        $context = $this->getContext($this->doc, $this->contextXpath, $this->namespaces);
-        $data = [];
 
-        foreach ($context as $currentContext) {
-            $data[] = $this->map($this->mapping, $currentContext, $this->namespaces);
-        }
-        
-        if ($this->filter) {
-            $data = $this->arrayFilterRecursive($data);
-        }
-        
-        return $data;
+        return $this->transformData($this->doc, $this->mapping, $this->contextXpath, $this->namespaces);
     }
 
     /**
@@ -182,6 +171,30 @@ class Mapper
     }
 
     /**
+     *
+     * @param \DOMDocument $dom
+     * @param array $mapping
+     * @param string $contextXpath
+     * @param array $namespaces
+     * @return array
+     */
+    private function transformData(\DOMDocument $dom, array $mapping, string $contextXpath, array $namespaces):array
+    {
+        $context = $this->getContext($dom, $contextXpath, $namespaces);
+        $data = [];
+
+        foreach ($context as $currentContext) {
+            $data[] = $this->map($mapping, $currentContext, $namespaces);
+        }
+
+        if ($this->filter) {
+            $data = $this->arrayFilterRecursive($data);
+        }
+
+        return $data;
+    }
+
+    /**
      * Map the array to values from XML
      *
      * @param array $mapping
@@ -195,6 +208,16 @@ class Mapper
 
         $data = $this->arrayMapRecursive(
             function ($value) use ($context, $namespaces) {
+
+                if (isset($value['context']) && $value['values']) {
+                    // Get new context
+                    $nested = $this->transformData($this->doc, $value['values'], $value['context'], $namespaces);
+
+                    if (isset($value['repeatable']) && $value['repeatable'] === true) {
+                        return $nested;
+                    }
+                    return current($nested);
+                }
 
                 if (!isset($value['xpath'])) {
                     return $value;
@@ -229,7 +252,9 @@ class Mapper
     {
 
         $func = function ($item) use (&$func, $callback) {
-            if (is_array($item) && !isset($item['xpath'])) {
+            if (is_array($item)
+                    && !isset($item['xpath'])
+                    && (!isset($item['context']) && !isset($item['values']))) {
                 return array_map($func, $item);
             } else {
                 return call_user_func($callback, $item);
@@ -238,7 +263,7 @@ class Mapper
 
         return array_map($func, $array);
     }
-    
+
     /**
      *
      * @param array $input
@@ -254,7 +279,7 @@ class Mapper
 
         return array_filter($input);
     }
-    
+
     /**
      *
      * @param \DOMDocument $doc
