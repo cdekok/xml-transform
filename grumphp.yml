@@ -4,7 +4,7 @@ parameters:
   tasks:
       phpcs:
         standard: PSR2
-        show_warnings: false
+        show_warnings: true
         ignore_patterns:
           - "test/*.php"
         metadata:
