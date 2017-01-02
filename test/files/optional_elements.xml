@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<records>
+    <record>
+        <data>
+            <title>test</title>
+            <creator>Bert</creator>
+        </data>
+    </record>
+    <record>
+        <data>
+            <title>test 2</title>
+        </data>
+    </record>
+    <record/>
+</records>
