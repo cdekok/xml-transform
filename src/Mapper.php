@@ -291,7 +291,14 @@ class Mapper
             }
         }
 
-        return array_filter($input);
+        return array_filter($input, function ($val) {
+            if (is_scalar($val)) {
+                return !is_null($val);
+            }
+            if (is_array($val)) {
+                return !empty($val);
+            }
+        });
     }
 
     /**

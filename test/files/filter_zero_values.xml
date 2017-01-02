@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns:xlink="http://www.w3.org/1999/xlink" 
+         xmlns="http://www.openarchives.org/OAI/2.0/" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+    <responseDate>2016-11-25T11:57:29Z</responseDate>
+    <request verb="ListRecords" metadataPrefix="oai_dev">http://example.com</request>
+    <ListRecords>
+        <record>
+            <header>
+                <identifier>2</identifier>
+                <datestamp>2016-11-25T11:57:29Z</datestamp>
+            </header>
+            <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:edm="http://www.europeana.eu/schemas/edm/" xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdaGr2="http://rdvocab.info/ElementsGr2/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/">
+                <title>Example title</title>
+                <objectnumber>0001</objectnumber>
+                <location>
+                    <city>Amsterdam</city>
+                    <country>the Netherlands</country>
+                </location>       
+            </metadata>
+        </record>
+        <record>
+            <header>
+                <identifier>0</identifier>
+                <datestamp>2016-11-25T11:57:29Z</datestamp>
+            </header>
+            <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:edm="http://www.europeana.eu/schemas/edm/" xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdaGr2="http://rdvocab.info/ElementsGr2/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/">
+                <title>Example title 2</title>
+                <objectnumber>0832 (67)</objectnumber>        
+            </metadata>
+        </record>
+    </ListRecords>
+</OAI-PMH>
