@@ -59,6 +59,13 @@ class Mapper
     private $filter = false;
 
     /**
+     * Allow optional elements prevents the ContextNotFoundException
+     *
+     * @var boolean
+     */
+    private $optionalElements = false;
+
+    /**
      * <code>
      * new \XmlTransform\Mapper([
      *      'id' => [
@@ -120,6 +127,23 @@ class Mapper
     {
         $this->doc = $doc;
         return $this;
+    }
+
+    /**
+     * Allow optional elements in mapping prevents context not found exception
+     *
+     * @param bool $value
+     * @return \self
+     */
+    public function optionalElements(bool $value = true):self
+    {
+        $this->optionalElements = $value;
+        return $this;
+    }
+
+    public function getOptionalElements():bool
+    {
+        return $this->optionalElements;
     }
 
     /**
@@ -230,6 +254,12 @@ class Mapper
                     if (isset($value['repeatable']) && $value['repeatable'] === true) {
                         return $nested;
                     }
+                    
+                    // set empty values to null
+                    if (!count($nested)) {
+                        return null;
+                    }
+
                     return current($nested);
                 }
 
@@ -337,7 +367,7 @@ class Mapper
     ):\DOMNodeList {
 
         $context = $this->getXpath($doc, $namespaces)->query($xpath, $contextNode);
-        if (!$context->length) {
+        if (!$this->optionalElements && !$context->length) {
             throw new Exception\ContextNotFound('No context found with: ' . $xpath);
         }
 

@@ -30,6 +30,56 @@ namespace XmlTransform\Test;
 
 class MapperTest extends \PHPUnit\Framework\TestCase {
 
+    public function testOptionalElements()
+    {
+        $xml = __DIR__ . '/files/optional_elements.xml';
+        $mapping = [
+            'record' => [
+                'context' => './/data',
+                'values' => [
+                    'title' => ['xpath' => './/title/text()'],
+                    'creator' => ['xpath' => './/creator/text()'], // optional
+                ]
+            ],
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//record');
+        $result = $transformer->from($xml)->optionalElements()->filter()->transform();
+
+        $this->assertEquals([
+            [
+                'record' => [
+                    'title' => 'test',
+                    'creator' => 'Bert',
+                ],
+            ],
+            [
+                'record' => [
+                    'title' => 'test 2',
+                ]
+            ]
+        ],$result);
+    }
+
+    public function testNonOptionalElements()
+    {
+        $this->expectException(\XmlTransform\Exception\ContextNotFound::class);
+
+        $xml = __DIR__ . '/files/optional_elements.xml';
+        $mapping = [
+            'records' => [
+                'repeatable' => true,
+                'context' => './/data',
+                'values' => [
+                    'title' => ['xpath' => './/title/text()'],
+                    'creator' => ['xpath' => './/creator/text()'], // optional
+                ]
+            ],
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//record');
+        $result = $transformer->from($xml)->transformOne();
+    }
 
     public function testMultipleNestedRepeatable()
     {
@@ -446,5 +496,4 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEquals([],$result);
     }
-
 }
