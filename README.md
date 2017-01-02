@@ -94,6 +94,37 @@ Filter empty values from the returned array
 $transformer->from($xml)->filter()->transform();
 ```
 
+### Optional elements (contexts)
+
+If there are optional elements with a context in the xml you will need to enable the optional setting to prevent an ContextNotFoundException
+
+```php
+$mapping = [
+    'record' => [
+        'context' => './/data',
+        'values' => [
+            'title' => ['xpath' => './/title/text()'],
+            'creator' => ['xpath' => './/creator/text()'], // optional
+        ]
+    ],
+];
+
+$transformer = new \XmlTransform\Mapper($mapping, '//record');
+$result = $transformer->from($xml)->optionalElements()->filter()->transform();
+
+// Result creator is missing.
+[
+    'record' => [
+        'title' => 'test',
+        'creator' => 'Bert',
+    ],
+],
+[
+    'record' => [
+        'title' => 'test 2',
+    ]
+]
+```
 ## Development ##
 
 After running `composer install` grumphp will watch codestyles and unit tests before commits.
