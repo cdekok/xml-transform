@@ -51,13 +51,13 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
 
         $transformer = new \XmlTransform\Mapper($mapping, '//oai:record', $namespaces);
         $result = $transformer->from($xml)->transform();
-        
+
         $this->assertEquals([
                 [
                     'id' => '1',
                     'constituent' => [
                         ['name' => 'van Gogh', 'death_date' => '1669'],
-                    ]                    
+                    ]
                 ],
                 [
                     'id' => '3517',
@@ -331,6 +331,41 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals(false, $transformer->getFilter());
         $transformer->from($xml)->filter(true);
         $this->assertEquals(true, $transformer->getFilter());
+    }
+
+
+    public function testFilterZeroValue()
+    {
+        $xml = __DIR__ . '/files/filter_zero_values.xml';
+        $namespaces = ['oai' => 'http://www.openarchives.org/OAI/2.0/'];
+        $mapping = [
+            'id' => [
+                'xpath' => './/oai:identifier/text()',
+                'repeatable' => true
+            ],
+            'location' => [
+                'country'   => ['xpath' => './/oai:metadata/oai:location/oai:country/text()'],
+                'city'      => ['xpath' => './/oai:metadata/oai:location/oai:city/text()'],
+            ]
+        ];
+
+        $transformer = new \XmlTransform\Mapper($mapping, '//oai:OAI-PMH/oai:ListRecords/oai:record', $namespaces);
+        $result = $transformer->from($xml)->filter()->transform();
+
+        $this->assertEquals([
+                [
+                    'id' => ['2'],
+                    'location' => [
+                        'country' => 'the Netherlands',
+                        'city' => 'Amsterdam',
+                    ]
+                ],
+                [
+                    'id' => ['0']
+                ],
+            ],
+            $result
+        );
     }
 
     public function testFilter()
