@@ -179,12 +179,18 @@ class Mapper
      * @param \DOMNode $contextNode
      * @return array
      */
-    private function transformData(\DOMDocument $dom, array $mapping, string $contextXpath, array $namespaces, $contextNode = null):array
-    {
+    private function transformData(
+        \DOMDocument $dom,
+        array $mapping,
+        string $contextXpath,
+        array $namespaces,
+        $contextNode = null
+    ):array {
+
         $context = $this->getContext($dom, $contextXpath, $namespaces, $contextNode);
 
         $data = [];
-        
+
         foreach ($context as $currentContext) {
             $data[] = $this->map($mapping, $currentContext, $namespaces);
         }
@@ -213,7 +219,13 @@ class Mapper
 
                 if (isset($value['context']) && $value['values']) {
                     // Get new context
-                    $nested = $this->transformData($this->doc, $value['values'], $value['context'], $namespaces, $context);
+                    $nested = $this->transformData(
+                        $this->doc,
+                        $value['values'],
+                        $value['context'],
+                        $namespaces,
+                        $context
+                    );
 
                     if (isset($value['repeatable']) && $value['repeatable'] === true) {
                         return $nested;
@@ -310,8 +322,13 @@ class Mapper
      * @return \DOMNodeList
      * @throws Exception\ContextNotFound
      */
-    private function getContext(\DOMDocument $doc, string $xpath, array $namespaces = [], $contextNode = null):\DOMNodeList
-    {
+    private function getContext(
+        \DOMDocument $doc,
+        string $xpath,
+        array $namespaces = [],
+        $contextNode = null
+    ):\DOMNodeList {
+
         $context = $this->getXpath($doc, $namespaces)->query($xpath, $contextNode);
         if (!$context->length) {
             throw new Exception\ContextNotFound('No context found with: ' . $xpath);
