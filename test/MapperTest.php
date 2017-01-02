@@ -33,7 +33,7 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
 
     public function testMultipleNestedRepeatable()
     {
-        $xml = __DIR__ . '/files/multiple_nested.xml';
+        $xml = __DIR__ . '/files/multiple_nested_repeatable.xml';
         $namespaces = ['oai' => 'http://www.openarchives.org/OAI/2.0/'];
 
         // <objectid>3517</objectid>
@@ -50,14 +50,22 @@ class MapperTest extends \PHPUnit\Framework\TestCase {
         ];
 
         $transformer = new \XmlTransform\Mapper($mapping, '//oai:record', $namespaces);
-        $result = $transformer->from($xml)->transformOne();
-
+        $result = $transformer->from($xml)->transform();
+        
         $this->assertEquals([
-                'id' => '3517',
-                'constituent' => [
-                    ['name' => 'Rembrandt', 'death_date' => '1669'],
-                    ['name' => 'Johannes Mock', 'death_date' => '1884'],
-                    ['name' => 'Georg Friedrich Schmidt', 'death_date' => '1775'],
+                [
+                    'id' => '1',
+                    'constituent' => [
+                        ['name' => 'van Gogh', 'death_date' => '1669'],
+                    ]                    
+                ],
+                [
+                    'id' => '3517',
+                    'constituent' => [
+                        ['name' => 'Rembrandt', 'death_date' => '1669'],
+                        ['name' => 'Johannes Mock', 'death_date' => '1884'],
+                        ['name' => 'Georg Friedrich Schmidt', 'death_date' => '1775'],
+                    ]
                 ]
             ],
             $result
