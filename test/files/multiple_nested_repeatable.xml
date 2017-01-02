@@ -1,0 +1,34 @@
+<records xmlns="http://www.openarchives.org/OAI/2.0/">
+    <record>
+        <header>
+            <identifier>1</identifier>
+            <datestamp>2016-11-25T10:35:04Z</datestamp>
+        </header>
+        <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:edm="http://www.europeana.eu/schemas/edm/" xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdaGr2="http://rdvocab.info/ElementsGr2/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/">
+            <objectid>1</objectid>
+            <objectnumber>1</objectnumber>
+            <constituent displayorder="3" role="Maker" placeborn="Leiden" placedied="Amsterdam" yearborn="1606" yeardied="1669" artistnumber="http://www.rkd.nl/rkddb/dispatcher.aspx?action=search&amp;database=ChoiceArtists&amp;search=priref=66219" beeldrecht="Rijksmuseum Twenthe">van Gogh</constituent>            
+            <title language="Nederlands" titletype="Primaire titel">Portret van een man</title>            
+        </metadata>
+    </record>
+    <record>
+        <header>
+            <identifier>3517</identifier>
+            <datestamp>2016-11-25T10:35:04Z</datestamp>
+        </header>
+        <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:edm="http://www.europeana.eu/schemas/edm/" xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:rdaGr2="http://rdvocab.info/ElementsGr2/" xmlns:oai="http://www.openarchives.org/OAI/2.0/" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ore="http://www.openarchives.org/ore/terms/" xmlns:skos="http://www.w3.org/2004/02/skos/core#" xmlns:dcterms="http://purl.org/dc/terms/">
+            <objectid>3517</objectid>
+            <objectnumber>2795</objectnumber>
+            <constituent displayorder="3" role="Maker" placeborn="Leiden" placedied="Amsterdam" yearborn="1606" yeardied="1669" artistnumber="http://www.rkd.nl/rkddb/dispatcher.aspx?action=search&amp;database=ChoiceArtists&amp;search=priref=66219" beeldrecht="Rijksmuseum Twenthe">Rembrandt</constituent>
+            <constituent displayorder="1" role="Maker" placeborn="Warendorf" placedied="Den Haag" yearborn="1800" yeardied="1884" artistnumber="http://www.rkd.nl/rkddb/dispatcher.aspx?action=search&amp;database=ChoiceArtists&amp;search=priref=56455">Johannes Mock</constituent>
+            <constituent displayorder="2" role="Maker" placeborn="Berlijn" placedied="Berlijn" yearborn="1712" yeardied="1775" artistnumber="http://www.rkd.nl/rkddb/dispatcher.aspx?action=search&amp;database=ChoiceArtists&amp;search=priref=70685">Georg Friedrich Schmidt</constituent>
+            <title language="Nederlands" titletype="Primaire titel">Portret van een man</title>
+            <dated>1824</dated>
+            <dateend>1824</dateend>
+            <datebegin>1824</datebegin>
+            <signed>in druk l.b.: ' Rembrandt pinx G.F. Schmidt fec. 1757 J. Mock copt 1824. '</signed>
+            <dimensions>12 x 10 cm</dimensions>
+            <medium>ets</medium>
+        </metadata>
+    </record>
+</records>
